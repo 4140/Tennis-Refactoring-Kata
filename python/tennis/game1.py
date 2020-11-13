@@ -11,6 +11,23 @@ class TennisGame1:
             self.player_2.score += 1
 
     def score(self):
+        score_counter = ScoreCounter(self.player_1, self.player_2)
+        result = score_counter.get_score()
+        return result
+
+
+class Player(object):
+    def __init__(self, name) -> None:
+        self.name = name
+        self.score = 0
+
+
+class ScoreCounter(object):
+    def __init__(self, player_1, player_2) -> None:
+        self.player_1 = player_1
+        self.player_2 = player_2
+
+    def get_score(self):
         result = ""
         temp_score = 0
         if (self.player_1.score == self.player_2.score):
@@ -42,10 +59,5 @@ class TennisGame1:
                     2: "Thirty",
                     3: "Forty",
                 }[temp_score]
+
         return result
-
-
-class Player(object):
-    def __init__(self, name) -> None:
-        self.name = name
-        self.score = 0
