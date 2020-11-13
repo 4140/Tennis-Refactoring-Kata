@@ -1,3 +1,6 @@
+from operator import attrgetter
+
+
 class TennisGame1:
 
     def __init__(self, player_1_name, player_2_name):
@@ -42,19 +45,19 @@ class ScoreCounter(object):
                 2: "Thirty-All",
             }.get(self.player_1.score, "Deuce")
 
-        return self._check_advantage()
+        return self._check_lead()
 
-    def _check_advantage(self):
-        if (self.player_1.score >= 4 or self.player_2.score >= 4):
-            minus_result = self.player_1.score-self.player_2.score
-            if (minus_result == 1):
-                return "Advantage " + self.player_1.name
-            elif (minus_result == -1):
-                return "Advantage " + self.player_2.name
-            elif (minus_result >= 2):
-                return "Win for " + self.player_1.name
-            else:
-                return "Win for " + self.player_2.name
+    def _check_lead(self):
+        leader = max(self.player_1, self.player_2, key=attrgetter('score'))
+        other = min(self.player_1, self.player_2, key=attrgetter('score'))
+
+        if (leader.score >= 4):
+            diff = leader.score - other.score
+            if (diff == 1):
+                return f"Advantage {leader.name}"
+            elif (diff >= 2):
+                return f"Win for {leader.name}"
+
         return self._check_default()
 
     def _check_default(self):
