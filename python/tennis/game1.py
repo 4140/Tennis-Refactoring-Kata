@@ -26,38 +26,50 @@ class ScoreCounter(object):
     def __init__(self, player_1, player_2) -> None:
         self.player_1 = player_1
         self.player_2 = player_2
+        self.temp_score = 0
 
     def get_score(self):
-        result = ""
-        temp_score = 0
+        return self._compare_scores()
+
+    def _compare_scores(self):
+        return self._check_tie()
+
+    def _check_tie(self):
         if (self.player_1.score == self.player_2.score):
-            result = {
+            return {
                 0: "Love-All",
                 1: "Fifteen-All",
                 2: "Thirty-All",
             }.get(self.player_1.score, "Deuce")
-        elif (self.player_1.score >= 4 or self.player_2.score >= 4):
+
+        return self._check_advantage()
+
+    def _check_advantage(self):
+        if (self.player_1.score >= 4 or self.player_2.score >= 4):
             minus_result = self.player_1.score-self.player_2.score
             if (minus_result == 1):
-                result = "Advantage " + self.player_1.name
+                return "Advantage " + self.player_1.name
             elif (minus_result == -1):
-                result = "Advantage " + self.player_2.name
+                return "Advantage " + self.player_2.name
             elif (minus_result >= 2):
-                result = "Win for " + self.player_1.name
+                return "Win for " + self.player_1.name
             else:
-                result = "Win for " + self.player_2.name
-        else:
-            for i in range(1, 3):
-                if (i == 1):
-                    temp_score = self.player_1.score
-                else:
-                    result += "-"
-                    temp_score = self.player_2.score
-                result += {
-                    0: "Love",
-                    1: "Fifteen",
-                    2: "Thirty",
-                    3: "Forty",
-                }[temp_score]
+                return "Win for " + self.player_2.name
+        return self._check_default()
+
+    def _check_default(self):
+        result = ""
+        for i in range(1, 3):
+            if (i == 1):
+                self.temp_score = self.player_1.score
+            else:
+                result += "-"
+                self.temp_score = self.player_2.score
+            result += {
+                0: "Love",
+                1: "Fifteen",
+                2: "Thirty",
+                3: "Forty",
+            }[self.temp_score]
 
         return result
