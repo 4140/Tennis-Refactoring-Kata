@@ -1,5 +1,12 @@
 from operator import attrgetter
 
+SCORE_MAP = {
+    0: "Love",
+    1: "Fifteen",
+    2: "Thirty",
+    3: "Forty",
+}
+
 
 class TennisGame1:
 
@@ -24,12 +31,15 @@ class Player(object):
         self.name = name
         self.score = 0
 
+    @property
+    def verbose_score(self):
+        return SCORE_MAP.get(self.score)
+
 
 class ScoreCounter(object):
     def __init__(self, player_1, player_2) -> None:
         self.player_1 = player_1
         self.player_2 = player_2
-        self.temp_score = 0
 
     def get_score(self):
         return self._compare_scores()
@@ -61,18 +71,4 @@ class ScoreCounter(object):
         return self._check_default()
 
     def _check_default(self):
-        result = ""
-        for i in range(1, 3):
-            if (i == 1):
-                self.temp_score = self.player_1.score
-            else:
-                result += "-"
-                self.temp_score = self.player_2.score
-            result += {
-                0: "Love",
-                1: "Fifteen",
-                2: "Thirty",
-                3: "Forty",
-            }[self.temp_score]
-
-        return result
+        return f"{self.player_1.verbose_score}-{self.player_2.verbose_score}"
