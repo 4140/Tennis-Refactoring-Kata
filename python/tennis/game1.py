@@ -1,3 +1,4 @@
+"""Tennis kata Version 1."""
 from operator import attrgetter
 
 SCORE_MAP = {
@@ -14,18 +15,21 @@ TIE_MAP = {
 
 
 class TennisGame1:
+    """Tennis game kata."""
 
     def __init__(self, player_1_name: str, player_2_name: str) -> None:
         self.player_1 = Player(name=player_1_name)
         self.player_2 = Player(name=player_2_name)
 
     def won_point(self, player_name: str) -> None:
+        """Score point for `player_name`."""
         if player_name == self.player_1.name:
             self.player_1.score += 1
         else:
             self.player_2.score += 1
 
     def score(self):
+        """Get current score."""
         score_counter = ScoreCounter(self.player_1, self.player_2)
         result = score_counter.get_score()
         return result
@@ -47,6 +51,7 @@ class ScoreCounter(object):
         self.player_2 = player_2
 
     def get_score(self) -> str:
+        """Get current score."""
         return self._compare_scores()
 
     def _compare_scores(self) -> str:
