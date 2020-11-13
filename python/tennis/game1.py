@@ -1,43 +1,41 @@
 class TennisGame1:
 
     def __init__(self, player_1_name, player_2_name):
-        self.player_1_name = player_1_name
-        self.player_2_name = player_2_name
-        self.p1points = 0
-        self.p2points = 0
+        self.player_1 = Player(name=player_1_name)
+        self.player_2 = Player(name=player_2_name)
 
     def won_point(self, player_name):
-        if player_name == self.player_1_name:
-            self.p1points += 1
+        if player_name == self.player_1.name:
+            self.player_1.score += 1
         else:
-            self.p2points += 1
+            self.player_2.score += 1
 
     def score(self):
         result = ""
         temp_score = 0
-        if (self.p1points == self.p2points):
+        if (self.player_1.score == self.player_2.score):
             result = {
                 0: "Love-All",
                 1: "Fifteen-All",
                 2: "Thirty-All",
-            }.get(self.p1points, "Deuce")
-        elif (self.p1points >= 4 or self.p2points >= 4):
-            minus_result = self.p1points-self.p2points
+            }.get(self.player_1.score, "Deuce")
+        elif (self.player_1.score >= 4 or self.player_2.score >= 4):
+            minus_result = self.player_1.score-self.player_2.score
             if (minus_result == 1):
-                result = "Advantage " + self.player_1_name
+                result = "Advantage " + self.player_1.name
             elif (minus_result == -1):
-                result = "Advantage " + self.player_2_name
+                result = "Advantage " + self.player_2.name
             elif (minus_result >= 2):
-                result = "Win for " + self.player_1_name
+                result = "Win for " + self.player_1.name
             else:
-                result = "Win for " + self.player_2_name
+                result = "Win for " + self.player_2.name
         else:
             for i in range(1, 3):
                 if (i == 1):
-                    temp_score = self.p1points
+                    temp_score = self.player_1.score
                 else:
                     result += "-"
-                    temp_score = self.p2points
+                    temp_score = self.player_2.score
                 result += {
                     0: "Love",
                     1: "Fifteen",
@@ -45,3 +43,9 @@ class TennisGame1:
                     3: "Forty",
                 }[temp_score]
         return result
+
+
+class Player(object):
+    def __init__(self, name) -> None:
+        self.name = name
+        self.score = 0
