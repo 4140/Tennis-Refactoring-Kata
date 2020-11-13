@@ -15,11 +15,11 @@ TIE_MAP = {
 
 class TennisGame1:
 
-    def __init__(self, player_1_name, player_2_name):
+    def __init__(self, player_1_name: str, player_2_name: str) -> None:
         self.player_1 = Player(name=player_1_name)
         self.player_2 = Player(name=player_2_name)
 
-    def won_point(self, player_name):
+    def won_point(self, player_name: str) -> None:
         if player_name == self.player_1.name:
             self.player_1.score += 1
         else:
@@ -32,33 +32,33 @@ class TennisGame1:
 
 
 class Player(object):
-    def __init__(self, name) -> None:
+    def __init__(self, name: str) -> None:
         self.name = name
         self.score = 0
 
     @property
-    def verbose_score(self):
-        return SCORE_MAP.get(self.score)
+    def verbose_score(self) -> str:
+        return SCORE_MAP[self.score]
 
 
 class ScoreCounter(object):
-    def __init__(self, player_1, player_2) -> None:
+    def __init__(self, player_1: Player, player_2: Player) -> None:
         self.player_1 = player_1
         self.player_2 = player_2
 
-    def get_score(self):
+    def get_score(self) -> str:
         return self._compare_scores()
 
-    def _compare_scores(self):
+    def _compare_scores(self) -> str:
         return self._check_tie()
 
-    def _check_tie(self):
+    def _check_tie(self) -> str:
         if (self.player_1.score == self.player_2.score):
             return TIE_MAP.get(self.player_1.score, "Deuce")
 
         return self._check_lead()
 
-    def _check_lead(self):
+    def _check_lead(self) -> str:
         leader = max(self.player_1, self.player_2, key=attrgetter('score'))
         other = min(self.player_1, self.player_2, key=attrgetter('score'))
 
@@ -71,5 +71,5 @@ class ScoreCounter(object):
 
         return self._default()
 
-    def _default(self):
+    def _default(self) -> str:
         return f"{self.player_1.verbose_score}-{self.player_2.verbose_score}"
