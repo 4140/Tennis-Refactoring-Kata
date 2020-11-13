@@ -6,6 +6,11 @@ SCORE_MAP = {
     2: "Thirty",
     3: "Forty",
 }
+TIE_MAP = {
+    0: "Love-All",
+    1: "Fifteen-All",
+    2: "Thirty-All",
+}
 
 
 class TennisGame1:
@@ -49,11 +54,7 @@ class ScoreCounter(object):
 
     def _check_tie(self):
         if (self.player_1.score == self.player_2.score):
-            return {
-                0: "Love-All",
-                1: "Fifteen-All",
-                2: "Thirty-All",
-            }.get(self.player_1.score, "Deuce")
+            return TIE_MAP.get(self.player_1.score, "Deuce")
 
         return self._check_lead()
 
