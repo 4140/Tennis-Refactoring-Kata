@@ -68,7 +68,7 @@ class ScoreCounter(object):
             elif (diff >= 2):
                 return f"Win for {leader.name}"
 
-        return self._check_default()
+        return self._default()
 
-    def _check_default(self):
+    def _default(self):
         return f"{self.player_1.verbose_score}-{self.player_2.verbose_score}"
